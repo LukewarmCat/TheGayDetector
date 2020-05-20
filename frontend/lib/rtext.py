@@ -1,6 +1,11 @@
-def rainbow(txt):
-        from termcolorz import colored;
+# Lukewarmcat's Module Importer
+import importlib;
+modules = ["termcolorz"]
 
+for x in modules:
+        vars()[x] = importlib.import_module(f'.{x}', package='lib')
+
+def rainbow(txt):
         rainbow = ['red', 'yellow', 'green', 'blue', 'magenta']
         rainbowArray = []
         arrayCounter = 0;
@@ -11,7 +16,7 @@ def rainbow(txt):
                 if arrayCounter > len(rainbow)-1:
                         arrayCounter = 0;
 
-                rainbowArray.append(colored(y, rainbow[arrayCounter]))
+                rainbowArray.append(termcolorz.colored(y, rainbow[arrayCounter]))
                 arrayCounter += 1
 
         return ''.join(rainbowArray);

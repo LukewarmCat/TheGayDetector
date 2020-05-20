@@ -1,4 +1,9 @@
-import random, shelve, rtext, confirmz, reqsystem;
+# Lukewarmcat's Module Importer
+import importlib, pkgutil, random, shelve;
+modules = [name for _, name, _ in pkgutil.iter_modules(['lib'])]
+
+for x in modules:
+        vars()[x] = importlib.import_module(f'.{x}', package='lib')
 
 r = confirmz.q("Registred?");
 
@@ -9,17 +14,17 @@ if not r:
         username = input("Desired Username: ").strip();
         password = input("Desired Password: ").strip();
 
-        returne = reqsystem.addUser(username, password)
-        if not returne:
+        ret = reqsystem.addUser(username, password)
+        if not ret:
                 print("Error occured.")
         else:
                 print(f"Welcome {username}! Please relog while selecting 'y' on registration.")
 else:
         username = input("Username: ").strip();
         password = input("Password: ").strip();
-        returne = reqsystem.getUser(username, password)
+        ret = reqsystem.getUser(username, password)
 
-        if not returne:
+        if not ret:
                 print("Error occured.")
         else:
-                print(f"Welcome {rtext.rainbow(username)}. You're currently {rtext.rainbow(str(returne))}% gay.")
+                print(f"Welcome {rtext.rainbow(username)}. You're currently {rtext.rainbow(str(ret))}% gay.")
