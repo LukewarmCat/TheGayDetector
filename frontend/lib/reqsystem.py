@@ -6,8 +6,8 @@ for x in modules:
         vars()[x] = importlib.import_module(f'.{x}', package='lib')
 
 def getUser(username, password):
-        with spinnerz.Spinner("Sending request to server... "):
-                r = requests.get(f"https://gayaccounts.glitch.me/getUser/{username}/{password}").json()
+        with spinnerz.Spinner("Sending request to serv'er... "):
+                r = requests.get(f"https://gey.glitch.me/getUser/{username}/{password}").json()
         print("                                      ")
         if "error" in r:
                 print("Error: " + r["error"])
@@ -20,7 +20,7 @@ def getUser(username, password):
 def addUser(username, password):
         if username and password:
                 with spinnerz.Spinner("Sending request to server... "):
-                        r = requests.get(f"https://gayaccounts.glitch.me/addUser/{username}/{password}").json()
+                        r = requests.get(f"https://gey.glitch.me/addUser/{username}/{password}").json()
                 print("                                      ")
                 if "error" in r:
                         print("Error: " + r["error"])
