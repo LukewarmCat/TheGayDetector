@@ -6,7 +6,7 @@ Original source: https://github.com/Tagar/stuff/blob/master/spinner.py
 import sys
 import threading
 import itertools
-
+import time
 
 class Spinner:
 
