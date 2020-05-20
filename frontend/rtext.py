@@ -1,5 +1,5 @@
 def rainbow(txt):
-        from termcolor import colored;
+        from termcolorz import colored;
 
         rainbow = ['red', 'yellow', 'green', 'blue', 'magenta']
         rainbowArray = []
