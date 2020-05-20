@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "enmap": "^5.2.4",
+    "better-sqlite3": "^7.0.1"
+  }
+}
