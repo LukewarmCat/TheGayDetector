@@ -5,7 +5,6 @@ A joke someone had, but I took it too far.
 
 # Requirements:
 * [requests](https://pypi.org/project/requests/)
-* [termcolor](https://pypi.org/project/termcolor/)
 
 # Credits
 humanot#2487 - for the Original idea<br>
