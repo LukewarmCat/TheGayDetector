@@ -6,7 +6,7 @@ for x in modules:
         vars()[x] = importlib.import_module(f'.{x}', package='lib')
 
 def getUser(username, password):
-        with spinnerz.Spinner("Sending request to serv'er... "):
+        with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://gey.glitch.me/getUser/{username}/{password}").json()
         print("                                      ")
         if "error" in r:
