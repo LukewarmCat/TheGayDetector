@@ -1,9 +1,5 @@
-# Lukewarmcat's Module Importer
-import importlib, pkgutil, random, shelve;
-modules = [name for _, name, _ in pkgutil.iter_modules(['lib'])]
-
-for x in modules:
-        vars()[x] = importlib.import_module(f'.{x}', package='lib')
+import random, shelve, sys;
+from lib import *;
 
 r = confirmz.q("Registred?");
 

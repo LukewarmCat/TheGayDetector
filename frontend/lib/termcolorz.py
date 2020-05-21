@@ -1,5 +1,6 @@
 """
-Warning, this code isn't mine.
+Warning, this code wasn't written by me.
+Original source: https://github.com/hfeeki/termcolor
 """
 
 from __future__ import print_function

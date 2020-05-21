@@ -1,3 +1,4 @@
-# Woo, empty file!
+# Not a empty file anymore );
 
-__all__ = ["confirmz", "reqsystem", "rtext", "spinnerz", "termcolorz"]
+import os, pkgutil
+__all__ = list(module for _, module, _ in pkgutil.iter_modules([os.path.dirname(__file__)]))

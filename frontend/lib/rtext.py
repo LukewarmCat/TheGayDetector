@@ -1,9 +1,4 @@
-# Lukewarmcat's Module Importer
-import importlib;
-modules = ["termcolorz"]
-
-for x in modules:
-        vars()[x] = importlib.import_module(f'.{x}', package='lib')
+from . import termcolorz;
 
 def rainbow(txt):
         rainbow = ['red', 'yellow', 'green', 'blue', 'magenta']

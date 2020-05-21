@@ -30,8 +30,8 @@ class Spinner:
                 sys.stdout.write('\b')
                 self.spinner_visible = False
                 if cleanup:
-                    sys.stdout.write(' ')       # overwrite spinner with blank
-                    sys.stdout.write('\r')      # move to next line
+                    sys.stdout.write(' ')
+                    sys.stdout.write('\r')
                 sys.stdout.flush()
 
     def spinner_task(self):
