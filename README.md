@@ -1,4 +1,4 @@
-# TheGayDetector
+# Xerty Meter
 A joke someone had, but I took it too far.
 
 ### :exclamation: Use python3.

@@ -1,6 +1,6 @@
 from distutils.util import strtobool
 
-def q(question):
+def q(question="^"):
         x = f'{question} [y/n]'
         print(x)
         while True:

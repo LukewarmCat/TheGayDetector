@@ -1,2 +1,2 @@
-## Frontend for the Gay Detector
+## Frontend for the Xerty Meter
 <center>lukewarmcat (c) and Others.</center>
