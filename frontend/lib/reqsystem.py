@@ -4,7 +4,7 @@ import requests;
 def getUser(username, password):
     if username and password:
             with spinnerz.Spinner("Sending request to server... "):
-                r = requests.get(f"http://localhost:3000/getUser/{username}/{password}").json()
+                r = requests.get(f"https://xerty.glitch.me/getUser/{username}/{password}").json()
             print("                                      ")
             if "error" in r:
                     print("Error: " + r["error"])
@@ -19,7 +19,7 @@ def getUser(username, password):
 def addUser(username, password):
         if username and password:
                 with spinnerz.Spinner("Sending request to server... "):
-                        r = requests.get(f"http://localhost:3000/addUser/{username}/{password}").json()
+                        r = requests.get(f"https://xerty.glitch.me/addUser/{username}/{password}").json()
                 print("                                      ")
                 if "error" in r:
                         print("Error: " + r["error"])
@@ -34,7 +34,7 @@ def addUser(username, password):
 def inviteUser(username, password, user):
         if username and password and user:
                 with spinnerz.Spinner("Sending request to server... "):
-                        r = requests.get(f"http://localhost:3000/inviteUser/{username}/{password}/{user}").json()
+                        r = requests.get(f"https://xerty.glitch.me/inviteUser/{username}/{password}/{user}").json()
                 print("                                      ")
                 if "error" in r:
                         print("Error: " + r["error"])
