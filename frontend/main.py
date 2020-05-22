@@ -3,12 +3,24 @@ from optparse import OptionParser
 parser = OptionParser()
 parser.add_option("-a", "--acceptinvite", dest="ai",
                   help="Accept a invite.")
-parser.add_option("-d", "--declineguild", dest="dg",
+
+parser.add_option("-d", "--declineinvite", dest="di",
                   help="Decline a guild invitation.")
+
 parser.add_option("-c", "--createguild", dest="cg",
                   help="Create a guild.")
+
 parser.add_option("-i", "--inviteuser", dest="iu",
                   help="Invite a user to your guild.")
+
+parser.add_option("-l", "--leaveguild", dest="lg",
+                  help="Leave a guild.")
+
+parser.add_option("-x", "--deleteguild", dest="dg",
+                  help="Delete your guild.")
+
+parser.add_option("-m", "--deleteuser", dest="du", action="store_true",
+                  help="Delete your account.")
 
 (options, args) = parser.parse_args()
 
@@ -18,7 +30,6 @@ from lib import *;
 r = confirmz.q("Registred?");
 
 if not r:
-        print("(Please note everything's being sent over plaintext.)\n")
         print("It seems like you're not registered. Shall we setup you with a account?")
 
         username = input("Desired Username: ").strip();
@@ -53,8 +64,9 @@ else:
                         print("Error occured.")
                     else:
                         print(f"You've joined {options.ai}.")
-                if options.dg:
-                    ret = reqsystem.declineInvite(username, password, options.dg)
+
+                if options.di:
+                    ret = reqsystem.declineInvite(username, password, options.di)
                     if not ret:
                         print("Error occured.")
                     else:
@@ -67,6 +79,36 @@ else:
                         print("Error occured.")
                     else:
                         print("User invited.")
+
+                if options.lg:
+                    print(f"Leaving guild {options.lg}. ")
+                    ret = reqsystem.leaveGuild(username, password, options.iu)
+                    if not ret:
+                        print("Error occured.")
+                    else:
+                        print("Guild left.")
+
+                if options.dg:
+                    print(f"Deleting guild {options.dg}. ")
+                    ret = reqsystem.deleteGuild(username, password, options.dg)
+                    if not ret:
+                        print("Error occured.")
+                    else:
+                        print("Guild deleted.")
+
+                if options.du:
+                    ok = confirmz.q("Do you really want to do this? Your account will be removed and you will be removed from all guilds.")
+                    if not ok:
+                        print("You can log back in without using this tag.")
+                        exit()
+                    else:
+                        print(f"Deleting your account... ")
+                        ret = reqsystem.deleteUser(username, password)
+                        if not ret:
+                            print("Error occured.")
+                        else:
+                            print("Account deleted.")
+                            exit()
 
                 if "guild" not in user:
                     displayname = rtext.rainbow(f"{username}")

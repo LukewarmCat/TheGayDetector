@@ -9,13 +9,106 @@ app.get("/", (request, response) => {
   response.send("<b> The Xerty Meter </b>")
 });
 
+app.get('/leaveGuild/:username/:password/:guild', (req, res) => {
+  const password = req.params.password
+  const username = req.params.username
+  const guild = req.params.guild
+
+  if(!accounts.get(username))
+    return res.send({error: "User doesn't exist."})
+
+  if(!username || !password)
+    return res.send({error: "Username or password empty."});
+
+  if (!passwordHash.verify(password, accounts.get(username).password))
+    return res.send({error: "Incorrect username or password."});
+
+  const player = accounts.get(username);
+
+  if(!player.guild)
+    return res.send({error: "You aren't in a guild."});
+
+  if(player.guild.owner === username)
+    return res.send({error: "You own this guild. Please delete it."});
+
+  const playerGuild = guilds.get(player.guild.name);
+
+  player.guild = undefined;
+
+  var index = playerGuild.members.indexOf(username);
+  if (index !== -1) player.invitations.splice(index, 1);
+
+  guilds.set(playerGuild.name, playerGuild);
+  accounts.set(username, player);
+  res.send({sucess: "Guild deleted."})
+})
+
+app.get('/deleteGuild/:username/:password/:guild', (req, res) => {
+  const password = req.params.password
+  const username = req.params.username
+  const guild = req.params.guild
+
+  if(!accounts.get(username))
+    return res.send({error: "User doesn't exist."})
+
+  if(!username || !password)
+    return res.send({error: "Username or password empty."});
+
+  if (!passwordHash.verify(password, accounts.get(username).password))
+    return res.send({error: "Incorrect username or password."});
+
+  const player = accounts.get(username);
+
+  if(!player.guild)
+    return res.send({error: "You aren't in a guild."});
+
+  if(player.guild.owner !== username)
+    return res.send({error: "You aren't a owner of your guild."});
+
+  accounts.keyArray().forEach((x)=>{
+    let pz = accounts.get(x)
+    if(pz.guild) {
+      if(pz.guild.name == guild) {
+        pz.guild = undefined;
+        accounts.set(x, pz)
+      }
+    }
+  })
+
+  guilds.set(guild, undefined);
+
+  res.send({sucess: "Guild deleted."})
+})
+
+app.get('/deleteUser/:username/:password', (req, res) => {
+  const password = req.params.password
+  const username = req.params.username
+
+  if(!accounts.get(username))
+    return res.send({error: "User doesn't exist."})
+
+  if(!username || !password)
+    return res.send({error: "Username or password empty."});
+
+  if (!passwordHash.verify(password, accounts.get(username).password))
+    return res.send({error: "Incorrect username or password."});
+
+  let player = accounts.get(username);
+
+  if(player.guild)
+    return res.send({error: "You're in a guild. Please leave it."});
+
+  accounts.delete(username)
+  res.send({sucess: "Account has been removed."})
+})
+
 app.get('/declineInvite/:username/:password/:guild', (req, res) => {
   const password = req.params.password
   const username = req.params.username
   const guild = req.params.guild
 
   if(!accounts.get(username))
-    return res.send({error: "Your name isn't correct."})
+    return res.send({error: "User doesn't exist"})
 
   if(!username || !password)
     return res.send({error: "Username or password empty."});
@@ -42,7 +135,6 @@ app.get('/declineInvite/:username/:password/:guild', (req, res) => {
 })
 
 app.get('/acceptInvite/:username/:password/:guild', (req, res) => {
-  console.log("reach")
   const password = req.params.password
   const username = req.params.username
   const guild = req.params.guild
@@ -173,5 +265,5 @@ app.get('/getUser/:username/:password', (req, res) => {
 });
 
 const listener = app.listen(3000, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Xerty's Backend is up. Listening on: 3000.");
 });

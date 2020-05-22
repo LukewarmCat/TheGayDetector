@@ -91,5 +91,50 @@ def createGuild(username, password, guildName):
     else:
             print("Error: Missing username or password")
 
+def deleteGuild(username, password, guildName):
+    if username and password and guildName:
+            with spinnerz.Spinner("Sending request to server... "):
+                r = requests.get(f"https://xerty.glitch.me/deleteGuild/{username}/{password}/{guildName}").json()
+            print("                                      ")
+            if "error" in r:
+                    print("Error: " + r["error"])
+                    return False;
+                    exit()
+            if "sucess" in r:
+                    return r["sucess"];
+                    exit()
+    else:
+            print("Error: Missing username or password")
+
+def deleteUser(username, password):
+    if username and password:
+            with spinnerz.Spinner("Sending request to server... "):
+                r = requests.get(f"https://xerty.glitch.me/deleteUser/{username}/{password}").json()
+            print("                                      ")
+            if "error" in r:
+                    print("Error: " + r["error"])
+                    return False;
+                    exit()
+            if "sucess" in r:
+                    return r["sucess"];
+                    exit()
+    else:
+            print("Error: Missing username or password")
+
+def leaveGuild(username, password, guildName):
+    if username and password and guildName:
+            with spinnerz.Spinner("Sending request to server... "):
+                r = requests.get(f"https://xerty.glitch.me/leaveGuild/{username}/{password}/{guildName}").json()
+            print("                                      ")
+            if "error" in r:
+                    print("Error: " + r["error"])
+                    return False;
+                    exit()
+            if "sucess" in r:
+                    return r["sucess"];
+                    exit()
+    else:
+            print("Error: Missing username or password")
+
 if __name__ == "__main__":
         exit()
