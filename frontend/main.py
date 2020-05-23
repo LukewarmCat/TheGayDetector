@@ -1,3 +1,7 @@
+# Enable VT100 support on Windows
+import os;
+os.system("")
+
 from optparse import OptionParser
 
 parser = OptionParser()
