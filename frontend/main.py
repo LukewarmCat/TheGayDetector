@@ -28,90 +28,90 @@ parser.add_option("-m", "--deleteuser", dest="du", action="store_true",
 
 (options, args) = parser.parse_args()
 
-import random, sys;
-from lib import *;
+from lib import *
+zui = zui.Zui();
 
-r = confirmz.q("Registred?");
+r = zui.confirmation("Are you registered?")
 
 if not r:
-        print("It seems like you're not registered. Shall we setup you with a account?")
+    zui.center("It seems like you're not registered. Shell we setup you with a account?");
 
-        username = input("Desired Username: ").strip();
-        password = input("Desired Password: ").strip();
+    username = zui.input("Desired Username: ").strip()
+    password = zui.input("Desired Password: ").strip()
+    ret = reqsystem.addUser(username, password)
+    if not ret:
+            zui.center("Error occured.")
 
-        ret = reqsystem.addUser(username, password)
-        if not ret:
-                print("Error occured.")
-        else:
-                print(f"Welcome {username}! Please relog while selecting 'y' on registration.")
+    else:
+            zui.center(f"Welcome {username}! Please relog while selecting 'y' on registration.")
 else:
-        username = input("Username: ").strip();
-        password = input("Password: ").strip();
+        username = zui.input("Username: ").strip();
+        password = zui.input("Password: ").strip();
         user = reqsystem.getUser(username, password)
 
         if not user:
-                print("Error occured.")
+                zui.center("Error occured.")
         else:
                 if options.cg:
-                    print(f"Making guild {options.cg}..")
+                    zui.center(f"Making guild {options.cg}..")
                     ret = reqsystem.createGuild(username, password, options.cg)
 
                     if not ret:
-                            print("Error occured.")
+                            zui.center("Error occured.")
                     else:
-                            print("Guild has been made.")
+                            zui.center("Guild has been made.")
 
                 if options.ai:
-                    print(f"Joining guild {options.ai}")
+                    zui.center(f"Joining guild {options.ai}")
                     ret = reqsystem.acceptInvite(username, password, options.ai)
                     if not ret:
-                        print("Error occured.")
+                        zui.center("Error occured.")
                     else:
-                        print(f"You've joined {options.ai}.")
+                        zui.center(f"You've joined {options.ai}.")
 
                 if options.di:
                     ret = reqsystem.declineInvite(username, password, options.di)
                     if not ret:
-                        print("Error occured.")
+                        zui.center("Error occured.")
                     else:
-                        print("Invite declined.")
+                        zui.center("Invite declined.")
 
                 if options.iu:
-                    print(f"Inviting {options.iu}. ")
+                    zui.center(f"Inviting {options.iu}. ")
                     ret = reqsystem.inviteUser(username, password, options.iu)
                     if not ret:
-                        print("Error occured.")
+                        zui.center("Error occured.")
                     else:
-                        print("User invited.")
+                        zui.center("User invited.")
 
                 if options.lg:
-                    print(f"Leaving guild {options.lg}. ")
+                    zui.center(f"Leaving guild {options.lg}. ")
                     ret = reqsystem.leaveGuild(username, password, options.iu)
                     if not ret:
-                        print("Error occured.")
+                        zui.center("Error occured.")
                     else:
-                        print("Guild left.")
+                        zui.center("Guild left.")
 
                 if options.dg:
-                    print(f"Deleting guild {options.dg}. ")
+                    zui.center(f"Deleting guild {options.dg}. ")
                     ret = reqsystem.deleteGuild(username, password, options.dg)
                     if not ret:
-                        print("Error occured.")
+                        zui.center("Error occured.")
                     else:
-                        print("Guild deleted.")
+                        zui.center("Guild deleted.")
 
                 if options.du:
-                    ok = confirmz.q("Do you really want to do this? Your account will be removed and you will be removed from all guilds.")
+                    ok = zui.confirmation("Do you really want to do this? Your account will be removed and you will be removed from all guilds.")
                     if not ok:
-                        print("You can log back in without using this tag.")
+                        zui.center("You can log back in without using this tag.")
                         exit()
                     else:
-                        print(f"Deleting your account... ")
+                        zui.center(f"Deleting your account... ")
                         ret = reqsystem.deleteUser(username, password)
                         if not ret:
-                            print("Error occured.")
+                            zui.center("Error occured.")
                         else:
-                            print("Account deleted.")
+                            zui.center("Account deleted.")
                             exit()
 
                 if "guild" not in user:
@@ -124,7 +124,7 @@ else:
                 else:
                     uinvite = f"You're invited to: {', '.join(user['invitations'])}.\nUse `main.py --acceptinvite name` to join a guild, and `main.py --declineguild name`"
 
-                print(uinvite)
+                zui.center(uinvite)
 
                 proc = rtext.rainbow(str(user["proc"]))
-                print(f"Welcome {displayname}. You're currently {proc}% xerty.")
+                zui.center(f"Welcome {displayname}. You're currently {proc}% xerty.")
