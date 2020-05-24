@@ -1,4 +1,4 @@
-import shutil, time;
+import shutil;
 from distutils.util import strtobool
 
 columns, rows = shutil.get_terminal_size();
@@ -16,7 +16,7 @@ class Zui:
 				print(x)
 				while True:
 						try:
-							return strtobool(input().lower())
+							return strtobool(input())
 						except ValueError:
 							print(x)
 

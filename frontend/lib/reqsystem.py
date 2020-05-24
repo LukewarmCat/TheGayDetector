@@ -1,18 +1,22 @@
 from . import spinnerz;
 import requests;
 
+def test(r):
+    if "error" in r:
+        print("Error: " + r["error"])
+        return False;
+        exit()
+    if "sucess" in r:
+        return r["sucess"];
+        exit()
+
+
 def getUser(username, password):
     if username and password:
             with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://xerty.glitch.me/getUser/{username}/{password}").json()
             print("                                      ")
-            if "error" in r:
-                    print("Error: " + r["error"])
-                    return False;
-                    exit()
-            if "sucess" in r:
-                    return r["sucess"];
-                    exit()
+            return test(r);
     else:
             print("Error: Missing username or password")
 
@@ -21,13 +25,7 @@ def addUser(username, password):
                 with spinnerz.Spinner("Sending request to server... "):
                         r = requests.get(f"https://xerty.glitch.me/addUser/{username}/{password}").json()
                 print("                                      ")
-                if "error" in r:
-                        print("Error: " + r["error"])
-                        return False;
-                        exit()
-                if "sucess" in r:
-                        return r["sucess"];
-                        exit()
+                return test(r);
         else:
                 print("Error: Missing username or password")
 
@@ -36,13 +34,7 @@ def inviteUser(username, password, user):
                 with spinnerz.Spinner("Sending request to server... "):
                         r = requests.get(f"https://xerty.glitch.me/inviteUser/{username}/{password}/{user}").json()
                 print("                                      ")
-                if "error" in r:
-                        print("Error: " + r["error"])
-                        return False;
-                        exit()
-                if "sucess" in r:
-                        return r["sucess"];
-                        exit()
+                return test(r);
         else:
                 print("Error: Missing username or password")
 
@@ -51,13 +43,7 @@ def declineInvite(username, password, guild):
                 with spinnerz.Spinner("Sending request to server... "):
                         r = requests.get(f"https://xerty.glitch.me/declineInvite/{username}/{password}/{guild}").json()
                 print("                                      ")
-                if "error" in r:
-                        print("Error: " + r["error"])
-                        return False;
-                        exit()
-                if "sucess" in r:
-                        return r["sucess"];
-                        exit()
+                return test(r);
         else:
                 print("Error: Missing username or password")
 
@@ -66,13 +52,7 @@ def acceptInvite(username, password, guild):
                 with spinnerz.Spinner("Sending request to server... "):
                         r = requests.get(f"https://xerty.glitch.me/acceptInvite/{username}/{password}/{guild}").json()
                 print("                                      ")
-                if "error" in r:
-                        print("Error: " + r["error"])
-                        return False;
-                        exit()
-                if "sucess" in r:
-                        return r["sucess"];
-                        exit()
+                return test(r);
         else:
                 print("Error: Missing username or password")
 
@@ -81,13 +61,7 @@ def createGuild(username, password, guildName):
             with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://xerty.glitch.me/createGuild/{username}/{password}/{guildName}").json()
             print("                                      ")
-            if "error" in r:
-                    print("Error: " + r["error"])
-                    return False;
-                    exit()
-            if "sucess" in r:
-                    return r["sucess"];
-                    exit()
+            return test(r);
     else:
             print("Error: Missing username or password")
 
@@ -96,13 +70,7 @@ def deleteGuild(username, password, guildName):
             with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://xerty.glitch.me/deleteGuild/{username}/{password}/{guildName}").json()
             print("                                      ")
-            if "error" in r:
-                    print("Error: " + r["error"])
-                    return False;
-                    exit()
-            if "sucess" in r:
-                    return r["sucess"];
-                    exit()
+            return test(r);
     else:
             print("Error: Missing username or password")
 
@@ -111,13 +79,7 @@ def deleteUser(username, password):
             with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://xerty.glitch.me/deleteUser/{username}/{password}").json()
             print("                                      ")
-            if "error" in r:
-                    print("Error: " + r["error"])
-                    return False;
-                    exit()
-            if "sucess" in r:
-                    return r["sucess"];
-                    exit()
+            return test(r);
     else:
             print("Error: Missing username or password")
 
@@ -126,13 +88,7 @@ def leaveGuild(username, password, guildName):
             with spinnerz.Spinner("Sending request to server... "):
                 r = requests.get(f"https://xerty.glitch.me/leaveGuild/{username}/{password}/{guildName}").json()
             print("                                      ")
-            if "error" in r:
-                    print("Error: " + r["error"])
-                    return False;
-                    exit()
-            if "sucess" in r:
-                    return r["sucess"];
-                    exit()
+            return test(r);
     else:
             print("Error: Missing username or password")
 

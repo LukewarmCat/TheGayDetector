@@ -1,4 +1,4 @@
-from . import termcolorz;
+from . import termcolorz as t;
 
 def rainbow(txt):
         rainbow = ['red', 'yellow', 'green', 'blue', 'magenta']
@@ -11,7 +11,7 @@ def rainbow(txt):
                 if arrayCounter > len(rainbow)-1:
                         arrayCounter = 0;
 
-                rainbowArray.append(termcolorz.colored(y, rainbow[arrayCounter]))
+                rainbowArray.append(t.colored(y, rainbow[arrayCounter]))
                 arrayCounter += 1
 
         return ''.join(rainbowArray);

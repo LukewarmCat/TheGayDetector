@@ -115,16 +115,15 @@ else:
                             exit()
 
                 if "guild" not in user:
-                    displayname = rtext.rainbow(f"{username}")
+                    name = rtext.rainbow(f"{username}")
                 else:
-                    displayname = rtext.rainbow(f"[{user['guild']['name']}] {username}")
+                    name = rtext.rainbow(f"[{user['guild']['name']}] {username}")
 
                 if not user["invitations"]:
-                    uinvite = "You don't have any Guild Invitations."
+                    invitn = "You don't have any Guild Invitations."
                 else:
-                    uinvite = f"You're invited to: {', '.join(user['invitations'])}.\nUse `main.py --acceptinvite name` to join a guild, and `main.py --declineguild name`"
+                    invitn = f"You're invited to: {', '.join(user['invitations'])}.\nUse `main.py --acceptinvite name` to join a guild, and `main.py --declineguild name`"
 
-                zui.center(uinvite)
+                zui.center(invitn)
 
-                proc = rtext.rainbow(str(user["proc"]))
-                zui.center(f"Welcome {displayname}. You're currently {proc}% xerty.")
+                zui.center(f'Welcome {name}. You\'re currently {rtext.rainbow(str(user["proc"]))}% xerty.')
