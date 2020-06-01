@@ -31,7 +31,7 @@ def acceptInvite(username, password, guild):
     return test([username, password, guild], ["username", "password", "guild"], "acceptInvite")
 
 def createGuild(username, password, guildName):
-    return test([username, password, guildname], ["username", "password", "guildName"], "createGuild")
+    return test([username, password, guildName], ["username", "password", "guildName"], "createGuild")
 
 def deleteGuild(username, password, guildName):
     return test([username, password, guildName], ["username", "password", "guildName"], "deleteGuild")
