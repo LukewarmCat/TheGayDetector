@@ -1,7 +1,7 @@
-const Enmap = require("enmap");
+const db = require("quick.db");
 const passwordHash = require('password-hash');
-const accounts = new Enmap({name: "accounts"});
-const guilds = new Enmap({name: "guilds"})
+const accounts = new db.table('accounts');
+const guilds = new db.table('guilds');
 
 module.exports = function(app) {
   app.get('/deleteGuild/:username/:password/:guild', (req, res) => {
@@ -26,17 +26,17 @@ module.exports = function(app) {
     if(player.guild.owner !== username)
       return res.send({error: "You aren't a owner of your guild."});
 
-    accounts.keyArray().forEach((x)=>{
-      let pz = accounts.get(x)
+    accounts.all().forEach((x)=>{
+      let pz = accounts.get(x.ID)
+      console.log(pz)
       if(pz.guild) {
         if(pz.guild.name == guild) {
-          pz.guild = undefined;
-          accounts.set(x, pz)
+          accounts.delete(`${x.ID}.guild`)
         }
       }
     })
 
-    guilds.set(guild, undefined);
+    guilds.delete(guild)
 
     res.send({sucess: "Guild deleted."})
   })

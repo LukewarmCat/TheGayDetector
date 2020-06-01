@@ -1,7 +1,7 @@
-const Enmap = require("enmap");
+const db = require("quick.db");
 const passwordHash = require('password-hash');
-const accounts = new Enmap({name: "accounts"});
-const guilds = new Enmap({name: "guilds"})
+const accounts = new db.table('accounts');
+const guilds = new db.table('guilds');
 
 module.exports = function(app) {
   app.get('/getUser/:username/:password', (req, res) => {
@@ -11,6 +11,11 @@ module.exports = function(app) {
     if (!passwordHash.verify(req.params.password, accounts.get(req.params.username).password))
       return res.send({error: "Incorrect username or password."});
 
-      res.send({sucess: accounts.get(req.params.username)})
+      let player = accounts.get(req.params.username);
+      if(player.guild) {
+        player.guild = guilds.get(player.guild.name)
+      }
+
+      res.send({sucess: player})
   });
 }

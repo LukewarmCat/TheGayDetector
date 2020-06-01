@@ -1,129 +1,169 @@
-# Enable VT100 support on Windows
-import os;
-os.system("")
-
-from optparse import OptionParser
-
-parser = OptionParser()
-parser.add_option("-a", "--acceptinvite", dest="ai",
-                  help="Accept a invite.")
-
-parser.add_option("-d", "--declineinvite", dest="di",
-                  help="Decline a guild invitation.")
-
-parser.add_option("-c", "--createguild", dest="cg",
-                  help="Create a guild.")
-
-parser.add_option("-i", "--inviteuser", dest="iu",
-                  help="Invite a user to your guild.")
-
-parser.add_option("-l", "--leaveguild", dest="lg",
-                  help="Leave a guild.")
-
-parser.add_option("-x", "--deleteguild", dest="dg",
-                  help="Delete your guild.")
-
-parser.add_option("-m", "--deleteuser", dest="du", action="store_true",
-                  help="Delete your account.")
-
-(options, args) = parser.parse_args()
-
+import tkinter as tk
+import tkinter.messagebox as messagebox
 from lib import *
-zui = zui.Zui();
 
-r = zui.confirmation("Are you registered?")
+window = tk.Tk()
 
-if not r:
-    zui.center("It seems like you're not registered. Shell we setup you with a account?");
+window.title("Main Menu")
 
-    username = zui.input("Desired Username: ").strip()
-    password = zui.input("Desired Password: ").strip()
-    ret = reqsystem.addUser(username, password)
-    if not ret:
-            zui.center("Error occured.")
+def registerw():
+    rw = tk.Toplevel(window)
+    rw.title("Register Menu")
 
-    else:
-            zui.center(f"Welcome {username}! Please relog while selecting 'y' on registration.")
-else:
-        username = zui.input("Username: ").strip();
-        password = zui.input("Password: ").strip();
-        user = reqsystem.getUser(username, password)
+    tk.Label(rw, text="Username:").grid(column=1, row=1)
+    usernameo = tk.Entry(rw, width=10)
+    usernameo.grid(column=2, row=1)
 
-        if not user:
-                zui.center("Error occured.")
-        else:
-                if options.cg:
-                    zui.center(f"Making guild {options.cg}..")
-                    ret = reqsystem.createGuild(username, password, options.cg)
+    tk.Label(rw, text="Password:").grid(column=1, row=2)
+    passwordo = tk.Entry(rw, width=10)
+    passwordo.grid(column=2, row=2)
 
-                    if not ret:
-                            zui.center("Error occured.")
-                    else:
-                            zui.center("Guild has been made.")
+    def submitr():
+            username = usernameo.get()
+            password = passwordo.get()
 
-                if options.ai:
-                    zui.center(f"Joining guild {options.ai}")
-                    ret = reqsystem.acceptInvite(username, password, options.ai)
-                    if not ret:
-                        zui.center("Error occured.")
-                    else:
-                        zui.center(f"You've joined {options.ai}.")
+            ret = request.addUser(username, password)
+            if not ret:
+                messagebox.showerror("Error", "Error occured.")
+            else:
+                messagebox.showinfo("Information", "User added.")
 
-                if options.di:
-                    ret = reqsystem.declineInvite(username, password, options.di)
-                    if not ret:
-                        zui.center("Error occured.")
-                    else:
-                        zui.center("Invite declined.")
+    tk.Button(rw, text="Submit", command=submitr).grid(column=1, row=3)
 
-                if options.iu:
-                    zui.center(f"Inviting {options.iu}. ")
-                    ret = reqsystem.inviteUser(username, password, options.iu)
-                    if not ret:
-                        zui.center("Error occured.")
-                    else:
-                        zui.center("User invited.")
+def loginw():
+    rl = tk.Toplevel(window)
+    rl.title("Login Menu")
 
-                if options.lg:
-                    zui.center(f"Leaving guild {options.lg}. ")
-                    ret = reqsystem.leaveGuild(username, password, options.iu)
-                    if not ret:
-                        zui.center("Error occured.")
-                    else:
-                        zui.center("Guild left.")
+    tk.Label(rl, text="Username:").grid(column=1, row=1)
+    usernameo = tk.Entry(rl, width=10)
+    usernameo.grid(column=2, row=1)
 
-                if options.dg:
-                    zui.center(f"Deleting guild {options.dg}. ")
-                    ret = reqsystem.deleteGuild(username, password, options.dg)
-                    if not ret:
-                        zui.center("Error occured.")
-                    else:
-                        zui.center("Guild deleted.")
+    tk.Label(rl, text="Password:").grid(column=1, row=2)
+    passwordo = tk.Entry(rl, width=10)
+    passwordo.grid(column=2, row=2)
 
-                if options.du:
-                    ok = zui.confirmation("Do you really want to do this? Your account will be removed and you will be removed from all guilds.")
-                    if not ok:
-                        zui.center("You can log back in without using this tag.")
-                        exit()
-                    else:
-                        zui.center(f"Deleting your account... ")
-                        ret = reqsystem.deleteUser(username, password)
+    def submitl():
+            username = usernameo.get()
+            password = passwordo.get()
+
+            user = request.getUser(username, password)
+            if not user:
+                messagebox.showerror("Error", "Error occured.")
+            else:
+                def submits():
+                    def submitss():
+                        ret = request.deleteUser(username, password)
                         if not ret:
-                            zui.center("Error occured.")
+                            messagebox.showerror("Error", "Error occured.")
                         else:
-                            zui.center("Account deleted.")
-                            exit()
+                            messagebox.showinfo("Information", "Account deleted.")
 
-                if "guild" not in user:
-                    name = rtext.rainbow(f"{username}")
-                else:
-                    name = rtext.rainbow(f"[{user['guild']['name']}] {username}")
+                    ls = tk.Toplevel(window)
+                    tk.Button(ls, text="Delete Your Account", command=submitss).grid(column=1, row=1)
 
-                if not user["invitations"]:
-                    invitn = "You don't have any Guild Invitations."
-                else:
-                    invitn = f"You're invited to: {', '.join(user['invitations'])}.\nUse `main.py --acceptinvite name` to join a guild, and `main.py --declineguild name`"
+                def submitg():
+                    if "guild" in user:
+                        lg = tk.Toplevel(window)
+                        tk.Label(lg, text=f"You're in {user['guild']['name']}").grid(column=1, row=1)
+                        tk.Label(lg, text=f"Members: {', '.join(user['guild']['accounts'])}").grid(column=1, row=2)
 
-                zui.center(invitn)
+                        def dvg():
+                            ret = request.deleteGuild(username, password, user['guild']['name'])
+                            if not ret:
+                                messagebox.showerror("Error", "Error occured.")
+                            else:
+                                messagebox.showinfo("Information", "Guild Disbanded.")
 
-                zui.center(f'Welcome {name}. You\'re currently {rtext.rainbow(str(user["proc"]))}% xerty.')
+                        def lvg():
+                            ret = request.leaveGuild(username, password, user['guild']['name'])
+                            if not ret:
+                                messagebox.showerror("Error", "Error occured.")
+                            else:
+                                messagebox.showinfo("Information", "Guild Left.")
+
+                        def ivg():
+                            ivug = tk.Toplevel(window);
+                            ivsub = tk.Entry(ivug, width=10)
+                            ivsub.grid(column=1, row=1)
+                            def ivugt():
+                                ret = request.inviteUser(username, password, ivsub.get())
+                                if not ret:
+                                    messagebox.showerror("Error", "Error occured.")
+                                else:
+                                    messagebox.showinfo("Information", "User invited.")
+
+                            tk.Button(ivug, text="Submit", command=ivugt).grid(column=2, row=1)
+
+
+                        if user['guild']['owner'] == username:
+                            tk.Label(lg, text=f"You're a owner.").grid(column=1, row=3)
+                            tk.Button(lg, text="Disband Guild", command=dvg).grid(column=1, row=4)
+                            tk.Button(lg, text="Invite User", command=ivg).grid(column=1, row=5)
+
+                        else:
+                            tk.Label(lg, text=f"You're in user.").grid(column=1, row=3)
+                            tk.Button(lg, text="Leave Guild", command=lvg).grid(column=1, row=4)
+
+                    else:
+                        ln = tk.Toplevel(window)
+                        tk.Label(ln, text="You don't seem to be in a guild. Would you like to create one?").grid(column=1, row=1)
+                        def lny():
+                            lnyg = tk.Toplevel(window);
+                            guildName = tk.Entry(lnyg, width=10)
+                            guildName.grid(column=1, row=1)
+                            def lnygt():
+                                ret = request.createGuild(username, password, guildName.get())
+                                if not ret:
+                                    messagebox.showerror("Error", "Error occured.")
+                                else:
+                                    messagebox.showinfo("Information", "Guild Made")
+
+                            tk.Button(lnyg, text="Submit", command=lnygt).grid(column=2, row=1)
+                        tk.Button(ln, text="Yes", command=lny).grid(column=1, row=2)
+                        tk.Button(ln, text="No (Close this window)").grid(column=2, row=2)
+
+                def ai():
+                    aiug = tk.Toplevel(window);
+                    aisub = tk.Entry(aiug, width=10)
+                    aisub.grid(column=1, row=1)
+                    def aigt():
+                        ret = request.acceptInvite(username, password, aisub.get())
+                        if not ret:
+                            messagebox.showerror("Error", "Error occured.")
+                        else:
+                            messagebox.showinfo("Information", "Invite Accepted. Welcome!")
+                    tk.Button(aiug, text="Submit", command=aigt).grid(column=2, row=1)
+
+                def di():
+                    diug = tk.Toplevel(window);
+                    disub = tk.Entry(diug, width=10)
+                    disub.grid(column=1, row=1)
+                    def dugt():
+                        ret = request.declineInvite(username, password, disub.get())
+                        if not ret:
+                            messagebox.showerror("Error", "Error occured.")
+                        else:
+                            messagebox.showinfo("Information", "Invite declined.")
+
+                    tk.Button(diug, text="Submit", command=dugt).grid(column=2, row=1)
+
+                lo = tk.Toplevel(window)
+
+                lo.title("Welcome!")
+                invitationl = tk.Label(lo, text=f"You don't have any invitations.")
+                invitationl.grid(column=1, row=5)
+                tk.Label(lo, text=f"Welcome {username}.").grid(column=1, row=1)
+                tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
+                tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
+                tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
+
+                if user["invitations"]:
+                    invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
+                    tk.Button(lo, text="Decline Invite", command=di).grid(column=1, row=6)
+                    tk.Button(lo, text="Accept Invite", command=ai).grid(column=1, row=7)
+    tk.Button(rl, text="Submit", command=submitl).grid(column=1, row=3)
+
+tk.Button(window, text="Login", command=loginw).grid(column=2, row=1)
+tk.Button(window, text="Register", command=registerw).grid(column=1, row=1)
+
+window.mainloop()

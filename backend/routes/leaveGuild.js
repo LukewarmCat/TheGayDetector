@@ -1,7 +1,7 @@
-const Enmap = require("enmap");
+const db = require("quick.db");
 const passwordHash = require('password-hash');
-const accounts = new Enmap({name: "accounts"});
-const guilds = new Enmap({name: "guilds"})
+const accounts = new db.table('accounts');
+const guilds = new db.table('guilds');
 
 module.exports = function(app) {
   app.get('/leaveGuild/:username/:password/:guild', (req, res) => {
@@ -26,14 +26,14 @@ module.exports = function(app) {
     if(player.guild.owner === username)
       return res.send({error: "You own this guild. Please delete it."});
 
-    const playerGuild = guilds.get(player.guild.name);
+    const temp = guilds.get(player.guild.name);
 
     player.guild = undefined;
 
-    var index = playerGuild.members.indexOf(username);
-    if (index !== -1) player.members.splice(index, 1);
+    var index = temp.accounts.indexOf(username);
+    if (index !== -1) player.accounts.splice(index, 1);
 
-    guilds.set(playerGuild.name, playerGuild);
+    guilds.set(temp.name, temp);
     accounts.set(username, player);
     res.send({sucess: "Guild left."})
   })

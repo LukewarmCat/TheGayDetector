@@ -1,7 +1,7 @@
-const Enmap = require("enmap");
+const db = require("quick.db");
 const passwordHash = require('password-hash');
-const accounts = new Enmap({name: "accounts"});
-const guilds = new Enmap({name: "guilds"})
+const accounts = new db.table('accounts');
+const guilds = new db.table('guilds');
 
 module.exports = function(app) {
   app.get('/acceptInvite/:username/:password/:guild', (req, res) => {
@@ -25,14 +25,17 @@ module.exports = function(app) {
       return res.send({error: "You already have a guild."})
 
     let player = accounts.get(username);
+    let temp = guilds.get(guild);
 
     var index = player.invitations.indexOf(guild);
     if (index !== -1) player.invitations.splice(index, 1);
 
-    player.guild = guilds.get(guild);
+    temp.accounts.push(username);
+
+    player.guild = temp;
 
     accounts.set(username, player);
-
+    guilds.set(guild, temp)
     res.send({sucess: `Invite accepted.`})
   })
 }

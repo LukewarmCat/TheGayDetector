@@ -17,12 +17,11 @@ python3 main.py
 ```
 Use `python3 main.py` every time you want to launch TXM.
 
+If you get any errors about TCL / tkinter not existing, please check if you're not using python 2.
+But, if you're on python 3, and this error happens, then please install TCL/tk. This can be done by reinstalling python3 and selecting the
+TCL/tk option.
 ## Usage
-To see the help menu, you can run:
-```bash
-python3 main.py -h
-```
-Most features related to guilds are in `-h`. Please check out `-h` once you've registered.
+Simply, register, and do whatever you want!
 
 
 ## Credits

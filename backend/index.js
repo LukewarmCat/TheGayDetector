@@ -3,7 +3,17 @@ const app = express();
 require('./routes')(app);
 
 app.get("/", (request, response) => {
-  response.send("<b> The Xerty Meter </b>")
+  response.send(`<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<p style="font-size: 30;font-family: 'Pacifico', cursive;text-align: center;">The Xerty Meter</p>
+<p style="font-size: 20;text-align: center;white-space: pre-wrap;">
+Source: https://github.com/LukewarmCat/xerty
+Discord: https://discord.gg/Hg2uDPB
+
+
+
+lukewarmcat &copy; 2020
+</p>`)
 });
 
 const listener = app.listen(3000, () => {

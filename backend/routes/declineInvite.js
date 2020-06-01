@@ -1,7 +1,7 @@
-const Enmap = require("enmap");
+const db = require("quick.db");
 const passwordHash = require('password-hash');
-const accounts = new Enmap({name: "accounts"});
-const guilds = new Enmap({name: "guilds"})
+const accounts = new db.table('accounts');
+const guilds = new db.table('guilds');
 
 module.exports = function(app) {
   app.get('/declineInvite/:username/:password/:guild', (req, res) => {

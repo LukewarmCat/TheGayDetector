@@ -205,5 +205,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Enmap
-data/
+# Database
+json.sqlite
