@@ -42,5 +42,11 @@ def deleteUser(username, password):
 def leaveGuild(username, password, guildName):
     return test([username, password, guildName], ["username", "password", "guildName"], "leaveGuild")
 
+def getGuildRanking(username, password):
+    return test([username, password], ["username", "password"], "getGuildRanking")
+
+def getUserRanking(username, password):
+    return test([username, password], ["username", "password"], "getUserRanking")
+
 if __name__ == "__main__":
         exit()

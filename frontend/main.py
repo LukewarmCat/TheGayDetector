@@ -61,6 +61,19 @@ def loginw():
                     ls = tk.Toplevel(window)
                     tk.Button(ls, text="Delete Your Account", command=submitss).grid(column=1, row=1)
 
+                def ulg():
+                    ret = request.getUserRanking(username, password)
+                    if not ret:
+                        messagebox.showerror("Error", "Error occured.")
+                    else:
+                        ul = tk.Toplevel(window)
+                        listbox = tk.Listbox(ul)
+
+                        for i in range(len(ret)):
+                            if i < 10:
+                                listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
+                        listbox.pack()
+
                 def submitg():
                     if "guild" in user:
                         lg = tk.Toplevel(window)
@@ -68,7 +81,18 @@ def loginw():
                         tk.Label(lg, text=f"Members: {', '.join(user['guild']['accounts'])}").grid(column=1, row=4);
                         tk.Label(lg, text=f"{user['guild']['name']} has a total of {user['guild']['totalxerty']}% xerty.").grid(column=1, row=3)
 
-                        tk.Button(lg, text="Guild Leaderboards").grid(column=1, row=7)
+
+                        def glg():
+                            ret = request.getGuildRanking(username, password)
+                            if not ret:
+                                messagebox.showerror("Error", "Error occured.")
+                            else:
+                                gl = tk.Toplevel(window)
+                                listbox = tk.Listbox(gl)
+                                for i in range(len(ret)):
+                                    if i < 10:
+                                        listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
+                                listbox.pack()
 
                         def dvg():
                             ret = request.deleteGuild(username, password, user['guild']['name'])
@@ -102,11 +126,11 @@ def loginw():
                             tk.Label(lg, text=f"You're a owner.").grid(column=1, row=2)
                             tk.Button(lg, text="Disband Guild", command=dvg).grid(column=1, row=5)
                             tk.Button(lg, text="Invite User", command=ivg).grid(column=1, row=6)
-
                         else:
                             tk.Label(lg, text=f"You're in user.").grid(column=1, row=2)
                             tk.Button(lg, text="Leave Guild", command=lvg).grid(column=1, row=5)
 
+                        tk.Button(lg, text="Guild Leaderboards", command=glg).grid(column=1, row=7)
                     else:
                         ln = tk.Toplevel(window)
                         tk.Label(ln, text="You don't seem to be in a guild. Would you like to create one?").grid(column=1, row=1)
@@ -159,7 +183,7 @@ def loginw():
                 tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
                 tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
                 tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
-                tk.Button(lo, text="User Leaderboards").grid(column=1, row=6)
+                tk.Button(lo, text="User Leaderboards", command=ulg).grid(column=1, row=6)
 
                 if user["invitations"]:
                     invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
