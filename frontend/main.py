@@ -65,7 +65,11 @@ def loginw():
                     if "guild" in user:
                         lg = tk.Toplevel(window)
                         tk.Label(lg, text=f"You're in {user['guild']['name']}").grid(column=1, row=1)
-                        tk.Label(lg, text=f"Members: {', '.join(user['guild']['accounts'])}").grid(column=1, row=2)
+                        tk.Label(lg, text=f"Members: {', '.join(user['guild']['accounts'])}").grid(column=1, row=4);
+                        guildxerty = tk.Label(lg, text="This guild has a total of {} % xerty.")
+                        guildxerty.grid(column=1, row=3)
+
+                        tk.Button(lg, text="Guild Leaderboards").grid(column=1, row=7)
 
                         def dvg():
                             ret = request.deleteGuild(username, password, user['guild']['name'])
@@ -96,13 +100,13 @@ def loginw():
 
 
                         if user['guild']['owner'] == username:
-                            tk.Label(lg, text=f"You're a owner.").grid(column=1, row=3)
-                            tk.Button(lg, text="Disband Guild", command=dvg).grid(column=1, row=4)
-                            tk.Button(lg, text="Invite User", command=ivg).grid(column=1, row=5)
+                            tk.Label(lg, text=f"You're a owner.").grid(column=1, row=2)
+                            tk.Button(lg, text="Disband Guild", command=dvg).grid(column=1, row=5)
+                            tk.Button(lg, text="Invite User", command=ivg).grid(column=1, row=6)
 
                         else:
-                            tk.Label(lg, text=f"You're in user.").grid(column=1, row=3)
-                            tk.Button(lg, text="Leave Guild", command=lvg).grid(column=1, row=4)
+                            tk.Label(lg, text=f"You're in user.").grid(column=1, row=2)
+                            tk.Button(lg, text="Leave Guild", command=lvg).grid(column=1, row=5)
 
                     else:
                         ln = tk.Toplevel(window)
@@ -156,6 +160,7 @@ def loginw():
                 tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
                 tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
                 tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
+                tk.Button(lo, text="User Leaderboards").grid(column=1, row=6)
 
                 if user["invitations"]:
                     invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
