@@ -11,10 +11,19 @@ module.exports = function(app) {
     if (!passwordHash.verify(req.params.password, accounts.get(req.params.username).password))
       return res.send({error: "Incorrect username or password."});
 
-      let player = accounts.get(req.params.username);
+      let player = accounts.get(req.params.username)
       if(player.guild) {
-        player.guild = guilds.get(player.guild.name)
+        let temp = guilds.get(player.guild.name);
+        totalxerty = 0;
+        temp.accounts.forEach((x)=>{
+          memplayer = accounts.get(x);
+          totalxerty += memplayer.proc;
+        })
+        temp.totalxerty = totalxerty;
+        player.guild = temp;
+        guilds.set(temp.name, temp)
       }
+
 
       res.send({sucess: player})
   });
