@@ -66,8 +66,7 @@ def loginw():
                         lg = tk.Toplevel(window)
                         tk.Label(lg, text=f"You're in {user['guild']['name']}").grid(column=1, row=1)
                         tk.Label(lg, text=f"Members: {', '.join(user['guild']['accounts'])}").grid(column=1, row=4);
-                        guildxerty = tk.Label(lg, text="This guild has a total of {} % xerty.")
-                        guildxerty.grid(column=1, row=3)
+                        tk.Label(lg, text=f"{user['guild']['name']} has a total of {user['guild']['totalxerty']}% xerty.").grid(column=1, row=3)
 
                         tk.Button(lg, text="Guild Leaderboards").grid(column=1, row=7)
 
