@@ -14,9 +14,9 @@ module.exports = function(app) {
       let player = accounts.get(req.params.username)
       if(player.guild) {
         let temp = guilds.get(player.guild.name);
-        totalxerty = 0;
+        let totalxerty = 0;
         temp.accounts.forEach((x)=>{
-          memplayer = accounts.get(x);
+          let memplayer = accounts.get(x);
           totalxerty += memplayer.proc;
         })
         temp.totalxerty = totalxerty;
