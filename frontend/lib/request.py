@@ -7,7 +7,7 @@ def test(r, x, q):
     if not l:
         print(f"Error: Missing {' or '.join(x)}.")
     else:
-        m = requests.get(f"http://xerty.glitch.me/{q}/{'/'.join(r)}").json()
+        m = requests.get(f"https://xerty.lukewarmcat.codes/{q}/{'/'.join(r)}").json()
         if "error" in m:
             print(f"Error: {m['error']}")
             return False;
