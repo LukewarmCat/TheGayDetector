@@ -3,6 +3,10 @@ const passwordHash = require('password-hash');
 const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
+function isObject (item) {
+  return (typeof item === "object" && !Array.isArray(item) && item !== null);
+}
+
 module.exports = function(app) {
   app.get('/getUserRanking/:username/:password', (req, res) => {
     if(!accounts.get(req.params.username))
@@ -13,8 +17,12 @@ module.exports = function(app) {
 
       let ranking = [];
       accounts.all().forEach((x)=>{
-        x = JSON.parse(x.data)
-        ranking.push([x.proc, x.name])
+        if (isObject(x.data)) {
+          ranking.push([x.data.proc, x.data.name])
+        } else {
+          y = JSON.parse(x.data)
+          ranking.push([y.proc, y.name])
+       }
       })
 
       ranking.sort((x, y)=>{return x[0] - y[0]})
