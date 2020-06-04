@@ -58,8 +58,16 @@ def loginw():
                         else:
                             messagebox.showinfo("Information", "Account deleted.")
 
+                    def rxg():
+                        ret = request.rerollXerty(username, password)
+                        if not ret:
+                            messagebox.showerror("Error", "Error occured.")
+                        else:
+                            messagebox.showinfo("Information", "Xerty Rerolled.")
+
                     ls = tk.Toplevel(window)
                     tk.Button(ls, text="Delete Your Account", command=submitss).grid(column=1, row=1)
+                    tk.Button(ls, text="Reroll Xerty", command=rxg).grid(column=1, row=2)
 
                 def ulg():
                     ret = request.getUserRanking(username, password)
@@ -184,11 +192,10 @@ def loginw():
                 tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
                 tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
                 tk.Button(lo, text="User Leaderboards", command=ulg).grid(column=1, row=6)
-
                 if user["invitations"]:
                     invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
-                    tk.Button(lo, text="Decline Invite", command=di).grid(column=1, row=6)
-                    tk.Button(lo, text="Accept Invite", command=ai).grid(column=1, row=7)
+                    tk.Button(lo, text="Decline Invite", command=di).grid(column=1, row=7)
+                    tk.Button(lo, text="Accept Invite", command=ai).grid(column=1, row=8)
     tk.Button(rl, text="Submit", command=submitl).grid(column=1, row=3)
 
 tk.Button(window, text="Login", command=loginw).grid(column=2, row=1)

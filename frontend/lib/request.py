@@ -48,5 +48,8 @@ def getGuildRanking(username, password):
 def getUserRanking(username, password):
     return test([username, password], ["username", "password"], "getUserRanking")
 
+def rerollXerty(username, password):
+    return test([username, password], ["username", "password"], "rerollXerty")
+
 if __name__ == "__main__":
         exit()
