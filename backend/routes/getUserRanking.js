@@ -8,11 +8,11 @@ function isObject (item) {
 }
 
 module.exports = function(app) {
-  app.get('/getUserRanking/:username/:password', (req, res) => {
-    if(!accounts.get(req.params.username))
+  app.post('/getUserRanking', (req, res) => {
+    if(!accounts.get(req.body.username))
       return res.send({error: "This user doesn't exist."});
 
-    if (!passwordHash.verify(req.params.password, accounts.get(req.params.username).password))
+    if (!passwordHash.verify(req.body.password, accounts.get(req.body.username).password))
       return res.send({error: "Incorrect username or password."});
 
       let ranking = [];

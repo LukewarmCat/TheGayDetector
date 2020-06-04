@@ -4,9 +4,9 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/deleteUser/:username/:password', (req, res) => {
-    const password = req.params.password
-    const username = req.params.username
+  app.post('/deleteUser', (req, res) => {
+    const password = req.body.password
+    const username = req.body.username
 
     if(!accounts.get(username))
       return res.send({error: "User doesn't exist."})
