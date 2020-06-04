@@ -14,7 +14,7 @@ module.exports = function(app) {
       let player = accounts.get(req.params.username)
 
       if(player.rerollTimeout) {
-        if(Date.now() > player.rerollTimeout + 86400) {
+        if(Date.now() < player.rerollTimeout + 86400) {
                 return res.send({error: "You recently rerolled. Please try tommorow."});
         }
       } else {
