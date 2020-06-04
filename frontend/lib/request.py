@@ -7,7 +7,11 @@ def test(r, x, q):
     if not l:
         print(f"Error: Missing {' or '.join(x)}.")
     else:
-        m = requests.get(f"https://xerty.lukewarmcat.codes/{q}/{'/'.join(r)}").json()
+        postMap = {};
+        for i in range(len(x)):
+            postMap[x[i]] = r[i]
+        m = requests.post(f"https://xerty.lukewarmcat.codes/{q}", data=postMap).json()
+
         if "error" in m:
             print(f"Error: {m['error']}")
             return False;

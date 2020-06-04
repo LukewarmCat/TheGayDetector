@@ -4,14 +4,14 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/getUser/:username/:password', (req, res) => {
-    if(!accounts.get(req.params.username))
+  app.post('/getUser', (req, res) => {
+    if(!accounts.get(req.body.username))
       return res.send({error: "This user doesn't exist."});
 
-    if (!passwordHash.verify(req.params.password, accounts.get(req.params.username).password))
+    if (!passwordHash.verify(req.body.password, accounts.get(req.body.username).password))
       return res.send({error: "Incorrect username or password."});
 
-      let player = accounts.get(req.params.username)
+      let player = accounts.get(req.body.username)
       if(player.guild) {
         let temp = guilds.get(player.guild.name);
         let totalxerty = 0;

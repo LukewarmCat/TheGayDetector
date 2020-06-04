@@ -4,9 +4,9 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/addUser/:username/:password', (req, res) => {
-    const username = req.params.username;
-    const password = passwordHash.generate(req.params.password);
+  app.post('/addUser', (req, res) => {
+    const username = req.body.username;
+    const password = passwordHash.generate(req.body.password);
 
     if(!username || !password)
       return res.send({error: "Username or password empty."});

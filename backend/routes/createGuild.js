@@ -4,10 +4,10 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/createGuild/:username/:password/:guildname', (req, res) => {
-    const password = req.params.password
-    const username = req.params.username
-    const guildName = req.params.guildname
+  app.post('/createGuild', (req, res) => {
+    const password = req.body.password
+    const username = req.body.username
+    const guildName = req.body.guildName
 
     if(guildName.length > 6 || guildName.length < 3)
       return res.send({error: "Guild name wrong. Max: 6, Min: 3 in length."})

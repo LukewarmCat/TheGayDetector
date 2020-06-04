@@ -4,10 +4,10 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/acceptInvite/:username/:password/:guild', (req, res) => {
-    const password = req.params.password
-    const username = req.params.username
-    const guild = req.params.guild
+  app.post('/acceptInvite', (req, res) => {
+    const password = req.body.password
+    const username = req.body.username
+    const guild = req.body.guild
 
     if(!accounts.get(username))
       return res.send({error: "User doesn't exist."})

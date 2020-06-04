@@ -4,10 +4,10 @@ const accounts = new db.table('accounts');
 const guilds = new db.table('guilds');
 
 module.exports = function(app) {
-  app.get('/deleteGuild/:username/:password/:guild', (req, res) => {
-    const password = req.params.password
-    const username = req.params.username
-    const guild = req.params.guild
+  app.post('/deleteGuild', (req, res) => {
+    const password = req.body.password
+    const username = req.body.username
+    const guild = req.body.guildName
 
     if(!accounts.get(username))
       return res.send({error: "User doesn't exist."})
@@ -28,14 +28,12 @@ module.exports = function(app) {
 
     accounts.all().forEach((x)=>{
       let pz = accounts.get(x.ID)
-      console.log(pz)
       if(pz.guild) {
         if(pz.guild.name == guild) {
-          accounts.delete(`${x.ID}.guild`)
+            accounts.delete(`${x.ID}.guild`)
         }
       }
     })
-
     guilds.delete(guild)
 
     res.send({sucess: "Guild deleted."})
