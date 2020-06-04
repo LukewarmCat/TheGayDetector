@@ -10,7 +10,11 @@ def test(r, x, q):
         postMap = {};
         for i in range(len(x)):
             postMap[x[i]] = r[i]
+<<<<<<< HEAD
         m = requests.post(f"https://xerty.lukewarmcat.codes/{q}", data=postMap).json()
+=======
+        m = requests.post(f"http://xerty.lukewarmcat.codes/{q}", data=postMap).json()
+>>>>>>> 2d996b5fe6b858034f3893b01c7d84069b1e34aa
 
         if "error" in m:
             print(f"Error: {m['error']}")
