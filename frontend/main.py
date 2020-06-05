@@ -1,6 +1,26 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
 from lib import *
+import time, atexit;
+
+rpc_obj = rpc.DiscordIpcClient.for_platform('716003185503764511')
+
+activity = {
+    "state": "Logged Out",
+    "details": "Not logged in.",
+    "assets": {
+        "large_text": "https://github.com/LukewarmCat/xerty",
+        "large_image": "large"
+    }
+}
+
+def set_details(detail):
+    activity["details"] = detail
+    rpc_obj.set_activity(activity)
+
+def set_state(state):
+    activity["state"] = state
+    rpc_obj.set_activity(activity)
 
 window = tk.Tk()
 
@@ -81,7 +101,6 @@ def loginw():
                             if i < 10:
                                 listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
                         listbox.pack()
-
                 def submitg():
                     if "guild" in user:
                         lg = tk.Toplevel(window)
@@ -156,7 +175,6 @@ def loginw():
                             tk.Button(lnyg, text="Submit", command=lnygt).grid(column=2, row=1)
                         tk.Button(ln, text="Yes", command=lny).grid(column=1, row=2)
                         tk.Button(ln, text="No (Close this window)").grid(column=2, row=2)
-
                 def ai():
                     aiug = tk.Toplevel(window);
                     aisub = tk.Entry(aiug, width=10)
@@ -184,21 +202,41 @@ def loginw():
 
                 lo = tk.Toplevel(window)
 
+                def closed():
+                        set_state("Logged Out")
+                        set_details("Not logged in.")
+                        lo.destroy();
+
+                lo.protocol("WM_DELETE_WINDOW", closed)
                 lo.title("Welcome!")
-                invitationl = tk.Label(lo, text=f"You don't have any invitations.")
-                invitationl.grid(column=1, row=5)
+
+                if "guild" in user:
+                    set_details(f"[{user['guild']['tag']}] {username}")
+                else:
+                    set_details(username)
+
+                set_state("In Game")
+
                 tk.Label(lo, text=f"Welcome {username}.").grid(column=1, row=1)
-                tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
                 tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
+
+                tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
                 tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
                 tk.Button(lo, text="User Leaderboards", command=ulg).grid(column=1, row=6)
+
+                invitationl = tk.Label(lo, text=f"You don't have any invitations.")
+                invitationl.grid(column=1, row=5)
+
                 if user["invitations"]:
                     invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
                     tk.Button(lo, text="Decline Invite", command=di).grid(column=1, row=7)
                     tk.Button(lo, text="Accept Invite", command=ai).grid(column=1, row=8)
+
     tk.Button(rl, text="Submit", command=submitl).grid(column=1, row=3)
 
 tk.Button(window, text="Login", command=loginw).grid(column=2, row=1)
 tk.Button(window, text="Register", command=registerw).grid(column=1, row=1)
 
+atexit.register(rpc_obj.close)
+rpc_obj.set_activity(activity)
 window.mainloop()
