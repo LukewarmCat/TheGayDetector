@@ -31,7 +31,7 @@ module.exports = function(app) {
     player.guild = undefined;
 
     var index = temp.accounts.indexOf(username);
-    if (index !== -1) player.accounts.splice(index, 1);
+    if (index !== -1) temp.accounts.splice(index, 1);
 
     guilds.set(temp.name, temp);
     accounts.set(username, player);
