@@ -3,8 +3,7 @@
 The Xerty Meter (TXM) is a Game that is based on a percentage of how "Xerty" are you.
 
 ## Requirments
-* Python 3 & pip,
-* requests pip package.
+* Python 3 & pip.
 
 ## Installation
 
@@ -12,7 +11,7 @@ You don't actually have to install TXM. It's standalone. Follow the tutorial bel
 ```bash
 git clone https://github.com/LukewarmCat/xerty
 cd xerty/frontend
-pip3 install requests
+pip install -r requirements.txt
 python3 main.py
 ```
 Use `python3 main.py` every time you want to launch TXM.
@@ -26,8 +25,6 @@ Simply, register, and do whatever you want!
 
 ## Credits
 * humanot#2487 - for the Original idea
-* [Tagar](https://github.com/Tagar/stuff/blob/master/spinner.py) - for the spinner
-* [Termcolor](https://github.com/hfeeki/termcolor) - for the creation of Termcolor (backend/termcolorz.py)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

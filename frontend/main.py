@@ -2,25 +2,36 @@ import tkinter as tk
 import tkinter.messagebox as messagebox
 from lib import *
 import time, atexit;
+from pypresence import Presence
 
-rpc_obj = rpc.DiscordIpcClient.for_platform('716003185503764511')
+defaultButton = {"relief": "ridge", "borderwidth": 0, "highlightbackground": "lime", "highlightthickness": 2}
+defaultListbox = {"borderwidth": 0}
 
 activity = {
     "state": "Logged Out",
     "details": "Not logged in.",
-    "assets": {
-        "large_text": "https://github.com/LukewarmCat/xerty",
-        "large_image": "large"
-    }
+    "large_text": "https://github.com/LukewarmCat/xerty",
+    "large_image": "large"
 }
 
-def set_details(detail):
-    activity["details"] = detail
-    rpc_obj.set_activity(activity)
+RPC = Presence("716003185503764511")
 
-def set_state(state):
-    activity["state"] = state
-    rpc_obj.set_activity(activity)
+rpcOff = None;
+try:
+    RPC.connect()
+except ConnectionRefusedError:
+    rpcOff = True;
+
+if not rpcOff:
+    RPC.update(**activity)
+
+    def set_details(detail):
+        activity["details"] = detail
+        RPC.update(**activity)
+
+    def set_state(state):
+        activity["state"] = state
+        RPC.update(**activity)
 
 window = tk.Tk()
 
@@ -48,7 +59,7 @@ def registerw():
             else:
                 messagebox.showinfo("Information", "User added.")
 
-    tk.Button(rw, text="Submit", command=submitr).grid(column=1, row=3)
+    tk.Button(rw, text="Submit", command=submitr, **defaultButton).grid(column=1, row=3)
 
 def loginw():
     rl = tk.Toplevel(window)
@@ -86,8 +97,8 @@ def loginw():
                             messagebox.showinfo("Information", "Xerty Rerolled.")
 
                     ls = tk.Toplevel(window)
-                    tk.Button(ls, text="Delete Your Account", command=submitss).grid(column=1, row=1)
-                    tk.Button(ls, text="Reroll Xerty", command=rxg).grid(column=1, row=2)
+                    tk.Button(ls, text="Delete Your Account", command=submitss, **defaultButton).grid(column=1, row=1)
+                    tk.Button(ls, text="Reroll Xerty", command=rxg, **defaultButton).grid(column=1, row=2)
 
                 def ulg():
                     ret = request.getUserRanking(username, password)
@@ -95,7 +106,7 @@ def loginw():
                         messagebox.showerror("Error", "Error occured.")
                     else:
                         ul = tk.Toplevel(window)
-                        listbox = tk.Listbox(ul)
+                        listbox = tk.Listbox(ul, **defaultListbox)
 
                         for i in range(len(ret)):
                             if i < 10:
@@ -115,7 +126,7 @@ def loginw():
                                 messagebox.showerror("Error", "Error occured.")
                             else:
                                 gl = tk.Toplevel(window)
-                                listbox = tk.Listbox(gl)
+                                listbox = tk.Listbox(gl, **defaultListbox)
                                 for i in range(len(ret)):
                                     if i < 10:
                                         listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
@@ -146,18 +157,18 @@ def loginw():
                                 else:
                                     messagebox.showinfo("Information", "User invited.")
 
-                            tk.Button(ivug, text="Submit", command=ivugt).grid(column=2, row=1)
+                            tk.Button(ivug, text="Submit", command=ivugt, **defaultButton).grid(column=2, row=1)
 
 
                         if user['guild']['owner'] == username:
                             tk.Label(lg, text=f"You're a owner.").grid(column=1, row=2)
-                            tk.Button(lg, text="Disband Guild", command=dvg).grid(column=1, row=5)
-                            tk.Button(lg, text="Invite User", command=ivg).grid(column=1, row=6)
+                            tk.Button(lg, text="Disband Guild", command=dvg, **defaultButton).grid(column=1, row=5)
+                            tk.Button(lg, text="Invite User", command=ivg, **defaultButton).grid(column=1, row=6)
                         else:
                             tk.Label(lg, text=f"You're in user.").grid(column=1, row=2)
-                            tk.Button(lg, text="Leave Guild", command=lvg).grid(column=1, row=5)
+                            tk.Button(lg, text="Leave Guild", command=lvg, **defaultButton).grid(column=1, row=5)
 
-                        tk.Button(lg, text="Guild Leaderboards", command=glg).grid(column=1, row=7)
+                        tk.Button(lg, text="Guild Leaderboards", command=glg, **defaultButton).grid(column=1, row=7)
                     else:
                         ln = tk.Toplevel(window)
                         tk.Label(ln, text="You don't seem to be in a guild. Would you like to create one?").grid(column=1, row=1)
@@ -172,9 +183,9 @@ def loginw():
                                 else:
                                     messagebox.showinfo("Information", "Guild Made")
 
-                            tk.Button(lnyg, text="Submit", command=lnygt).grid(column=2, row=1)
-                        tk.Button(ln, text="Yes", command=lny).grid(column=1, row=2)
-                        tk.Button(ln, text="No (Close this window)").grid(column=2, row=2)
+                            tk.Button(lnyg, text="Submit", command=lnygt, **defaultButton).grid(column=2, row=1)
+                        tk.Button(ln, text="Yes", command=lny, **defaultButton).grid(column=1, row=2)
+                        tk.Button(ln, text="No (Close this window)", **defaultButton).grid(column=2, row=2)
                 def ai():
                     aiug = tk.Toplevel(window);
                     aisub = tk.Entry(aiug, width=10)
@@ -185,7 +196,7 @@ def loginw():
                             messagebox.showerror("Error", "Error occured.")
                         else:
                             messagebox.showinfo("Information", "Invite Accepted. Welcome!")
-                    tk.Button(aiug, text="Submit", command=aigt).grid(column=2, row=1)
+                    tk.Button(aiug, text="Submit", command=aigt, **defaultButton).grid(column=2, row=1)
 
                 def di():
                     diug = tk.Toplevel(window);
@@ -198,45 +209,45 @@ def loginw():
                         else:
                             messagebox.showinfo("Information", "Invite declined.")
 
-                    tk.Button(diug, text="Submit", command=dugt).grid(column=2, row=1)
+                    tk.Button(diug, text="Submit", command=dugt, **defaultButton).grid(column=2, row=1)
 
                 lo = tk.Toplevel(window)
 
                 def closed():
-                        set_state("Logged Out")
-                        set_details("Not logged in.")
+                        if not rpcOff:
+                            set_state("Logged Out")
+                            set_details("Not logged in.")
                         lo.destroy();
 
                 lo.protocol("WM_DELETE_WINDOW", closed)
                 lo.title("Welcome!")
+                if not rpcOff:
+                    if "guild" in user:
+                        set_details(f"[{user['guild']['tag']}] {username}")
+                    else:
+                        set_details(username)
 
-                if "guild" in user:
-                    set_details(f"[{user['guild']['tag']}] {username}")
-                else:
-                    set_details(username)
-
-                set_state("In Game")
+                    set_state("In Game")
 
                 tk.Label(lo, text=f"Welcome {username}.").grid(column=1, row=1)
                 tk.Label(lo, text=f"You're currently {user['proc']}% xerty.").grid(column=1, row=4)
 
-                tk.Button(lo, text="Settings", command=submits).grid(column=10, row=1)
-                tk.Button(lo, text="Guilds", command=submitg).grid(column=10, row=4)
-                tk.Button(lo, text="User Leaderboards", command=ulg).grid(column=1, row=6)
+                tk.Button(lo, text="Settings", command=submits, **defaultButton).grid(column=10, row=1)
+                tk.Button(lo, text="Guilds", command=submitg, **defaultButton).grid(column=10, row=4)
+                tk.Button(lo, text="User Leaderboards", command=ulg, **defaultButton).grid(column=1, row=6)
 
                 invitationl = tk.Label(lo, text=f"You don't have any invitations.")
                 invitationl.grid(column=1, row=5)
 
                 if user["invitations"]:
                     invitationl["text"] = f"You're invitated to {','.join(user['invitations'])}"
-                    tk.Button(lo, text="Decline Invite", command=di).grid(column=1, row=7)
-                    tk.Button(lo, text="Accept Invite", command=ai).grid(column=1, row=8)
+                    tk.Button(lo, text="Decline Invite", command=di, **defaultButton).grid(column=1, row=7)
+                    tk.Button(lo, text="Accept Invite", command=ai, **defaultButton).grid(column=1, row=8)
 
-    tk.Button(rl, text="Submit", command=submitl).grid(column=1, row=3)
+    tk.Button(rl, text="Submit", command=submitl, **defaultButton).grid(column=1, row=3)
 
-tk.Button(window, text="Login", command=loginw).grid(column=2, row=1)
-tk.Button(window, text="Register", command=registerw).grid(column=1, row=1)
+tk.Button(window, text="Login", command=loginw, **defaultButton).grid(column=2, row=1)
+tk.Button(window, text="Register", command=registerw, **defaultButton).grid(column=1, row=1)
 
-atexit.register(rpc_obj.close)
-rpc_obj.set_activity(activity)
+window.tk_setPalette(foreground="lime", background="black")
 window.mainloop()
