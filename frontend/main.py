@@ -23,7 +23,7 @@ RPC = Presence("716003185503764511")
 rpcOff = None;
 try:
     RPC.connect()
-except ConnectionRefusedError:
+except (FileNotFoundError, ConnectionRefusedError):
     rpcOff = True;
 
 if not rpcOff:
@@ -113,11 +113,9 @@ def loginw():
                         messagebox.showerror("Error", "Error occured.")
                     else:
                         ul = tko.Toplevel(window)
-                        listbox = tko.Listbox(ul, borderwidth=0)
                         for i in range(len(ret)):
                             if i < 10:
-                                listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
-                        listbox.pack()
+                                ttk.Label(ul, text=f"#{i+1} | {ret[i][1]} [{ret[i][0]}]").grid(column=1, row=i)
                 def submitg():
                     if "guild" in user:
                         lg = tko.Toplevel(window)
@@ -132,11 +130,9 @@ def loginw():
                                 messagebox.showerror("Error", "Error occured.")
                             else:
                                 gl = tko.Toplevel(window)
-                                listbox = tko.Listbox(gl, borderwidth=0)
                                 for i in range(len(ret)):
                                     if i < 10:
-                                        listbox.insert(i, f"#{i+1} | {ret[i][1]} [{ret[i][0]}]")
-                                listbox.pack()
+                                        ttk.Label(gl, text=f"#{i+1} | {ret[i][1]} [{ret[i][0]}]").grid(column=1, row=i)
 
                         def dvg():
                             ret = request.deleteGuild(username, password, user['guild']['name'])
