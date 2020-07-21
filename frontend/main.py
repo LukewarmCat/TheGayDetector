@@ -6,6 +6,7 @@ import tkinter.messagebox as messagebox
 
 # Discord RPC
 from pypresence import Presence
+import pypresence as pyp;
 import time, atexit;
 
 # Libaries (request)
@@ -23,7 +24,7 @@ RPC = Presence("716003185503764511")
 rpcOff = None;
 try:
     RPC.connect()
-except (FileNotFoundError, ConnectionRefusedError):
+except (FileNotFoundError, ConnectionRefusedError, pyp.exceptions.InvalidPipe):
     rpcOff = True;
 
 if not rpcOff:

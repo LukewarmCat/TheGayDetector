@@ -1,9 +1,25 @@
 var fs = require('fs');
-const blacklist = ["index.js"]
+
+// https://stackoverflow.com/a/16684530
 module.exports = function(app){
-    fs.readdirSync(__dirname).forEach(function(file) {
-        if (blacklist.includes(file)) return;
-        var name = file.substr(0, file.indexOf('.'));
-        require('./' + name)(app);
+var walk = function(dir) {
+    var results = [];
+    var list = fs.readdirSync(dir);
+    list.forEach(function(file) {
+        file = dir + '/' + file;
+        var stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) {
+            results = results.concat(walk(file));
+        } else {
+            results.push(file);
+        }
     });
+    return results;
+}
+
+walk(__dirname).forEach((file) => {
+  if(file.includes(["index.js"])) return;
+  var name = file.substr(0, file.indexOf('.'));
+  require(name)(app)
+})
 }
